@@ -1,19 +1,16 @@
 package ifam.edu.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name="estado")
 public class Estado {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, nullable = false)
-    private String sigla;
+//    @Column(unique = true, nullable = false)
+//    private String sigla;
 
     @Column(unique = true, nullable = false)
     private String nome;
@@ -21,25 +18,29 @@ public class Estado {
     @Column(unique = true, nullable = false)
     private String codigoIBGE;
 
+    @ManyToOne
+    private Pais pais;
+
     public Estado() {
     }
 
-    public Estado(String sigla, String nome) {
-        this.sigla = sigla;
+    public Estado(String nome, String codigoIBGE, Pais pais) {
         this.nome = nome;
+        this.codigoIBGE = codigoIBGE;
+        this.pais = pais;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getSigla() {
-        return sigla;
-    }
-
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
-    }
+//    public String getSigla() {
+//        return sigla;
+//    }
+//
+//    public void setSigla(String sigla) {
+//        this.sigla = sigla;
+//    }
 
     public String getNome() {
         return nome;
@@ -49,12 +50,30 @@ public class Estado {
         this.nome = nome;
     }
 
+    public String getCodigoIBGE() {
+        return codigoIBGE;
+    }
+
+    public void setCodigoIBGE(String codigoIBGE) {
+        this.codigoIBGE = codigoIBGE;
+    }
+
+    public Pais getPais() {
+        return pais;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
+
+
     @Override
     public String toString() {
         return "Estado{" +
                 "id=" + id +
-                ", sigla='" + sigla + '\'' +
                 ", nome='" + nome + '\'' +
+                ", codigoIBGE='" + codigoIBGE + '\'' +
+                ", pais=" + pais +
                 '}';
     }
 }

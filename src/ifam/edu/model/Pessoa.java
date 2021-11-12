@@ -9,23 +9,31 @@ import java.util.List;
 public class Pessoa {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(unique = true, nullable = false)
-	private String documento;
-
 	private String nome;
-	private String telefone;
-
 
 	@Enumerated(EnumType.ORDINAL)
 	private SexoEnum sexo;
 
+	@Column(unique = true, nullable = false)
+	private String documento;
+
+
+	private String telefone;
+
+	private String email;
+
 	private LocalDateTime dataNascimento;
 
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	private List<Interesse> interesses = new ArrayList<>();
+	private String endereco;
+
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private Cidade cidade;
+
+	@Enumerated(EnumType.STRING)
+	private PessoaEnum tipo;
 
 	public Pessoa() {
 	}
@@ -35,8 +43,7 @@ public class Pessoa {
 		this.telefone = telefone;
 	}
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	private Cidade cidade;
+
 
 	public Integer getId() {
 		return id;
@@ -91,26 +98,55 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public List<Interesse> getInteresses() {
-		return interesses;
+	public String getEmail() {
+		return email;
 	}
 
-	public void addInteresse(Interesse interesse) {
-		if(!this.interesses.contains(interesse)){
-			this.interesses.add(interesse);
-		}
-
+	public void setEmail(String email) {
+		this.email = email;
 	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public PessoaEnum getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(PessoaEnum tipo) {
+		this.tipo = tipo;
+	}
+
+	//	public List<Interesse> getInteresses() {
+//		return interesses;
+//	}
+//
+//	public void addInteresse(Interesse interesse) {
+//		if(!this.interesses.contains(interesse)){
+//			this.interesses.add(interesse);
+//		}
+//
+//	}
+
 
 	@Override
 	public String toString() {
 		return "Pessoa{" +
 				"id=" + id +
-				", documento='" + documento + '\'' +
 				", nome='" + nome + '\'' +
-				", telefone='" + telefone + '\'' +
 				", sexo=" + sexo +
+				", documento='" + documento + '\'' +
+				", telefone='" + telefone + '\'' +
+				", email='" + email + '\'' +
+				", dataNascimento=" + dataNascimento +
+				", endereco='" + endereco + '\'' +
 				", cidade=" + cidade +
+				", tipo=" + tipo +
 				'}';
 	}
 }

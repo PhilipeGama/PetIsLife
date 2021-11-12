@@ -7,7 +7,7 @@ import java.util.List;
 public class Cidade {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(unique = true, nullable = false)
@@ -45,6 +45,14 @@ public class Cidade {
 
     public List<Pessoa> getPessoas() {
         return pessoas;
+    }
+
+    public String getCodigoIBGE() {
+        return codigoIBGE;
+    }
+
+    public void setCodigoIBGE(String codigoIBGE) {
+        this.codigoIBGE = codigoIBGE;
     }
 
     public void addPessoa(Pessoa pessoa) {

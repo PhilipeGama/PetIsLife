@@ -1,5 +1,7 @@
 package ifam.edu.dao;
 
+import ifam.edu.model.Cidade;
+import ifam.edu.model.Estado;
 import ifam.edu.model.Pessoa;
 import ifam.edu.util.JPAUtil;
 
@@ -8,47 +10,46 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class PessoaDAO {
+    public void salvar(Pessoa pessoa){
+        EntityManager entityManager = JPAUtil.getEntityManager();
 
-    private EntityManager entityManager;
-    private DAOGenerico<Pessoa> dao;
 
-    public PessoaDAO(EntityManager entityManager){
-        this.entityManager = entityManager;
-        dao = new DAOGenerico<>(entityManager,Pessoa.class);
+        entityManager.getTransaction().begin();
+
+        entityManager.persist(pessoa);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
-    private void salvar(Pessoa pessoa){
-        dao.salvar(pessoa);
-    }
+    public Pessoa consultar(Integer id){
+        EntityManager entityManager = JPAUtil.getEntityManager();
 
-    private void consultar(Integer id){
-        dao.consultar(id);
+        Pessoa pessoa = entityManager.find(Pessoa.class, id);
+        entityManager.close();
+        return pessoa;
     }
 
     public void remover(Integer id){
-        dao.remover(id);
+        EntityManager entityManager = JPAUtil.getEntityManager();
+
+        Pessoa pessoa = entityManager.find(Pessoa.class, id);
+
+        entityManager.getTransaction().begin();
+        entityManager.remove(pessoa);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
     }
 
-    public List<Pessoa> lista(){
-        return dao.listar();
-    }
+    public List<Pessoa> listar(){
+        EntityManager entityManager = JPAUtil.getEntityManager();
 
-    public List<Pessoa> listarPorNome(String nome){
-        Query query = entityManager.createQuery("select p from pessoa p where p.nome=:parNome");
+        Query query = entityManager.createQuery("select e from pessoa e");
 
-        query.setParameter("parNome",nome);
+        List<Pessoa> pessoas = query.getResultList();
 
-        List<Pessoa> objetos = query.getResultList();
-        return objetos;
-    }
-
-    public List<Pessoa> listarPorNomeParcial(String nome){
-        Query query = entityManager.createQuery("select p from pessoa p where p.nome like :parNome");
-
-        query.setParameter("parNome","%"+nome+"%");
-
-        List<Pessoa> objetos = query.getResultList();
-        return objetos;
+        return pessoas;
     }
 
 
