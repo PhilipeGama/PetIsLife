@@ -52,5 +52,15 @@ public class PessoaDAO {
         return pessoas;
     }
 
+    public List<Pessoa> listarPorPessoaNomeParcial(String nome){
+        EntityManager entityManager = JPAUtil.getEntityManager();
+        Query query = entityManager.createQuery("select p from pessoa p where p.nome like :parNome");
+
+        query.setParameter("parNome","%"+nome+"%");
+
+        List<Pessoa> objetos = query.getResultList();
+        return objetos;
+    }
+
 
 }

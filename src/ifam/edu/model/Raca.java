@@ -39,6 +39,9 @@ public class Raca {
     }
 
     public void addPets(Pet pet) {
-        this.pets.add(pet);
+        if(!this.pets.contains(pet)){
+            this.pets.add(pet);
+            pet.setRaca(this);
+        }
     }
 }

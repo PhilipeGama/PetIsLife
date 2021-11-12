@@ -1,6 +1,7 @@
 package ifam.edu.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="cidade")
@@ -20,7 +21,7 @@ public class Cidade {
     private Estado estado;
 
     @OneToMany(mappedBy = "cidade")
-    private List<Pessoa> pessoas;
+    private List<Pessoa> pessoas = new ArrayList<>();
 
 
     public Cidade() {
@@ -56,7 +57,10 @@ public class Cidade {
     }
 
     public void addPessoa(Pessoa pessoa) {
-        this.pessoas.add(pessoa);
+        if(!this.pessoas.contains(pessoa)){
+            this.pessoas.add(pessoa);
+            pessoa.setCidade(this);
+        }
     }
 
     public Estado getEstado() {

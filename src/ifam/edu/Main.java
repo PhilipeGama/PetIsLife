@@ -12,6 +12,42 @@ import java.util.List;
 
 public class Main {
 
+    public static void inserirPessoaPet(){
+        EntityManager em = JPAUtil.getEntityManager();
+
+
+        Pet pet1 = new Pet();
+        pet1.setNome("Toto12");
+        pet1.setSexo(SexoPetENUM.MACHO);
+        pet1.setNascimento(LocalDateTime.of(1990,01,1,10,10,10));
+
+
+
+
+
+        Pessoa p1 = new Pessoa();
+        p1.setNome("PEdroaao");
+        p1.setDocumento("perdrao111");
+
+
+        Pessoa p2 = new Pessoa();
+        p2.setNome("PMaria");
+        p2.setDocumento("Maria11");
+
+        pet1.addProprietarios(p1);
+        pet1.addProprietarios(p2);
+
+        em.getTransaction().begin();
+
+        em.persist(p1);
+        em.persist(p2);
+        em.persist(pet1);
+
+        em.getTransaction().commit();
+
+        em.close();
+    }
+
     public static void inserirPet(){
         EntityManager em = JPAUtil.getEntityManager();
 
@@ -142,6 +178,14 @@ public class Main {
         dao.remover(1);
     }
 
+    public static void listaPessoaNomePar(){
+        PessoaDAO dao = new PessoaDAO();
+        List<Pessoa>pessoas = dao.listarPorPessoaNomeParcial("P");
+
+        for(Pessoa p: pessoas){
+            System.out.println(p.toString());
+        }
+    }
     public  static void addPet(){
         Pet pet = new Pet();
         pet.setNome("TotoMaluco");
@@ -168,25 +212,38 @@ public class Main {
         dao.remover(1);
     }
 
+    public static void listaPetNomePar(){
+        PetDAO dao = new PetDAO();
+        List<Pet> pets = dao.listarPorPetNomeParcial("P");
+
+        for(Pet p: pets){
+            System.out.println(p.toString());
+        }
+    }
+
 
     public static void main(String[] args) {
-//        inserirPessoaComCidadeNoBD();
-        //        inserirPet();
+     //   inserirPessoaComCidadeNoBD();
+//             inserirPet();
+             inserirPessoaPet();
+
+
         //Pessoa
 //        addPessoa();
 
 //        listPessoa();
 //        consultarPessoa();
 //        deletePessoa();
-
+//listaPessoaNomePar();
 
         //Pet
 
 //        addPet();
 
 //        listPet();
-        consultarPet();
+//        //consultarPet();
 //        deletePet();
+//        listaPetNomePar();
     }
 
 

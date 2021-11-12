@@ -2,6 +2,7 @@ package ifam.edu.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "pet")
@@ -12,6 +13,7 @@ public class Pet {
     private Integer id;
 
     private String nome;
+    @Enumerated(EnumType.STRING)
     private SexoPetENUM sexo;
     private LocalDateTime nascimento;
 
@@ -19,7 +21,7 @@ public class Pet {
     private Raca raca;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Pessoa> proprietarios;
+    private List<Pessoa> proprietarios = new ArrayList<>();
 
 
     public String getNome() {
@@ -52,6 +54,14 @@ public class Pet {
 
     public void setRaca(Raca raca) {
         this.raca = raca;
+    }
+
+    public List<Pessoa> getProprietarios() {
+        return proprietarios;
+    }
+
+    public void addProprietarios(Pessoa proprietario) {
+        this.proprietarios.add(proprietario);
     }
 
     @Override

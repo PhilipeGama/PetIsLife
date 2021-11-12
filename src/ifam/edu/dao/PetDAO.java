@@ -1,5 +1,6 @@
 package ifam.edu.dao;
 
+import ifam.edu.model.Pessoa;
 import ifam.edu.model.Pet;
 import ifam.edu.util.JPAUtil;
 
@@ -50,5 +51,14 @@ public class PetDAO {
         return pets;
     }
 
+    public List<Pet> listarPorPetNomeParcial(String nome){
+        EntityManager entityManager = JPAUtil.getEntityManager();
+        Query query = entityManager.createQuery("select p from pet p where p.nome like :parNome");
+
+        query.setParameter("parNome","%"+nome+"%");
+
+        List<Pet> objetos = query.getResultList();
+        return objetos;
+    }
 
 }
